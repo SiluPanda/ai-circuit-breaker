@@ -10,4 +10,6 @@ export type { WindowTracker } from './window/types';
 export { SpendTracker } from './spend-tracker';
 export { StateMachine } from './state-machine';
 export type { BreachedThreshold } from './state-machine';
+export { FallbackHandler } from './fallback';
+export type { FallbackContext } from './fallback';
 // createBreaker — to be implemented in later phases
