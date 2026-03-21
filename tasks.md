@@ -35,18 +35,18 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 2: Window Boundary Calculators
 
-- [ ] **Define window tracker interface** — Define an internal interface for window trackers with methods: `getWindowStart()`, `getWindowEnd()`, `isExpired(now)`, `reset(now)`, and `getResetsIn(now)`. This is the contract all window types implement. | Status: not_done
-- [ ] **Implement hourly window calculator** — In `src/window/hourly.ts`, implement window alignment to the top of the UTC hour. Given a timestamp, compute the current window's start (XX:00:00.000 UTC) and end (next XX:00:00.000 UTC). Support `alignTo` option for custom minute alignment. | Status: not_done
-- [ ] **Implement lazy reset detection for hourly window** — The hourly window checks whether `Date.now()` has passed the window end. If so, it resets the window boundaries to the new current hour. No background timers. | Status: not_done
-- [ ] **Write hourly window tests** — Test: window starts at top of hour, ends at top of next hour. Window created mid-hour has correct boundaries. Reset advances to next hour. `alignTo` shifts the window start minute. Edge case: window created at exactly XX:00:00.000. | Status: not_done
-- [ ] **Implement daily window calculator** — In `src/window/daily.ts`, implement window alignment to midnight UTC by default. Support `timezone` option for non-UTC alignment. | Status: not_done
-- [ ] **Write daily window tests** — Test: window starts at midnight UTC, ends at next midnight. Timezone option shifts alignment. Edge case: DST transitions (23-hour and 25-hour days if timezone is used). | Status: not_done
-- [ ] **Implement monthly window calculator** — In `src/window/monthly.ts`, implement window alignment to the 1st of the month at midnight UTC. Handle variable month lengths (28, 29, 30, 31 days). Support `timezone` option. | Status: not_done
-- [ ] **Write monthly window tests** — Test: window starts on 1st, ends on 1st of next month. February edge cases (28 vs 29 days). December to January transition. Timezone support. | Status: not_done
-- [ ] **Implement custom duration window** — In `src/window/custom.ts`, implement a rolling window of configurable `durationMs`. Anchored to breaker creation time (or previous reset time). Not aligned to clock boundaries. | Status: not_done
-- [ ] **Write custom window tests** — Test: window of 15 minutes starts at creation time. Reset advances by durationMs. Very short durations (1 second). Very long durations (1 week). | Status: not_done
-- [ ] **Implement window factory** — In `src/window/index.ts`, create a factory function that takes a `WindowType | CustomWindow` and returns the appropriate window tracker instance. | Status: not_done
-- [ ] **Write window factory tests** — Test: factory returns correct tracker for 'hourly', 'daily', 'monthly', and custom windows. Invalid window type throws. | Status: not_done
+- [x] **Define window tracker interface** — Define an internal interface for window trackers with methods: `getWindowStart()`, `getWindowEnd()`, `isExpired(now)`, `reset(now)`, and `getResetsIn(now)`. This is the contract all window types implement. | Status: done
+- [x] **Implement hourly window calculator** — In `src/window/hourly.ts`, implement window alignment to the top of the UTC hour. Given a timestamp, compute the current window's start (XX:00:00.000 UTC) and end (next XX:00:00.000 UTC). Support `alignTo` option for custom minute alignment. | Status: done
+- [x] **Implement lazy reset detection for hourly window** — The hourly window checks whether `Date.now()` has passed the window end. If so, it resets the window boundaries to the new current hour. No background timers. | Status: done
+- [x] **Write hourly window tests** — Test: window starts at top of hour, ends at top of next hour. Window created mid-hour has correct boundaries. Reset advances to next hour. `alignTo` shifts the window start minute. Edge case: window created at exactly XX:00:00.000. | Status: done
+- [x] **Implement daily window calculator** — In `src/window/daily.ts`, implement window alignment to midnight UTC by default. Support `timezone` option for non-UTC alignment. | Status: done
+- [x] **Write daily window tests** — Test: window starts at midnight UTC, ends at next midnight. Timezone option shifts alignment. Edge case: DST transitions (23-hour and 25-hour days if timezone is used). | Status: done
+- [x] **Implement monthly window calculator** — In `src/window/monthly.ts`, implement window alignment to the 1st of the month at midnight UTC. Handle variable month lengths (28, 29, 30, 31 days). Support `timezone` option. | Status: done
+- [x] **Write monthly window tests** — Test: window starts on 1st, ends on 1st of next month. February edge cases (28 vs 29 days). December to January transition. Timezone support. | Status: done
+- [x] **Implement custom duration window** — In `src/window/custom.ts`, implement a rolling window of configurable `durationMs`. Anchored to breaker creation time (or previous reset time). Not aligned to clock boundaries. | Status: done
+- [x] **Write custom window tests** — Test: window of 15 minutes starts at creation time. Reset advances by durationMs. Very short durations (1 second). Very long durations (1 week). | Status: done
+- [x] **Implement window factory** — In `src/window/index.ts`, create a factory function that takes a `WindowType | CustomWindow` and returns the appropriate window tracker instance. | Status: done
+- [x] **Write window factory tests** — Test: factory returns correct tracker for 'hourly', 'daily', 'monthly', and custom windows. Invalid window type throws. | Status: done
 
 ---
 
