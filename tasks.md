@@ -64,15 +64,15 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 4: Circuit State Machine
 
-- [ ] **Implement StateMachine class** — In `src/state-machine.ts`, implement the three-state circuit breaker pattern: closed, open, half-open. Track current state, the breached threshold, probe count remaining, and the timestamp when the circuit opened. | Status: not_done
-- [ ] **Implement closed-to-open transition** — Triggered when `recordSpend` causes any window's spend to exceed its threshold. Store which threshold was breached. | Status: not_done
-- [ ] **Implement open-to-half-open transition** — Triggered lazily when: (a) a window resets and the reset window was the breached one, (b) `addBudget` brings spend below the limit, or (c) `cooldownMs` has elapsed. The transition is checked on the next interaction (wrapped call or `getState()`). | Status: not_done
-- [ ] **Implement half-open-to-closed transition** — Triggered when all probe calls complete and no window's spend exceeds its threshold. Reset the probe counter. | Status: not_done
-- [ ] **Implement half-open-to-open transition** — Triggered when a probe call's recorded cost pushes any window's spend back over its threshold. | Status: not_done
-- [ ] **Implement cooldownMs enforcement** — The circuit must remain in the open state for at least `cooldownMs` (default 5000ms) before transitioning to half-open, even if a window resets or budget is replenished. | Status: not_done
-- [ ] **Implement probe counting in half-open state** — Track the number of probe calls allowed (`probeCount`, default 1). Decrement on each call that passes through. Calls beyond `probeCount` execute the fallback. | Status: not_done
-- [ ] **Implement manual reset** — `reset()` transitions to closed from any state, resets all spend accumulators and window boundaries. | Status: not_done
-- [ ] **Write state machine transition tests** — Test all transitions: closed->open, open->half-open (window reset), open->half-open (addBudget), open->half-open (cooldown expired), half-open->closed, half-open->open. Test that `reset()` works from all states. Test that `cooldownMs` prevents premature transition. | Status: not_done
+- [x] **Implement StateMachine class** — In `src/state-machine.ts`, implement the three-state circuit breaker pattern: closed, open, half-open. Track current state, the breached threshold, probe count remaining, and the timestamp when the circuit opened. | Status: done
+- [x] **Implement closed-to-open transition** — Triggered when `recordSpend` causes any window's spend to exceed its threshold. Store which threshold was breached. | Status: done
+- [x] **Implement open-to-half-open transition** — Triggered lazily when: (a) a window resets and the reset window was the breached one, (b) `addBudget` brings spend below the limit, or (c) `cooldownMs` has elapsed. The transition is checked on the next interaction (wrapped call or `getState()`). | Status: done
+- [x] **Implement half-open-to-closed transition** — Triggered when all probe calls complete and no window's spend exceeds its threshold. Reset the probe counter. | Status: done
+- [x] **Implement half-open-to-open transition** — Triggered when a probe call's recorded cost pushes any window's spend back over its threshold. | Status: done
+- [x] **Implement cooldownMs enforcement** — The circuit must remain in the open state for at least `cooldownMs` (default 5000ms) before transitioning to half-open, even if a window resets or budget is replenished. | Status: done
+- [x] **Implement probe counting in half-open state** — Track the number of probe calls allowed (`probeCount`, default 1). Decrement on each call that passes through. Calls beyond `probeCount` execute the fallback. | Status: done
+- [x] **Implement manual reset** — `reset()` transitions to closed from any state, resets all spend accumulators and window boundaries. | Status: done
+- [x] **Write state machine transition tests** — Test all transitions: closed->open, open->half-open (window reset), open->half-open (addBudget), open->half-open (cooldown expired), half-open->closed, half-open->open. Test that `reset()` works from all states. Test that `cooldownMs` prevents premature transition. | Status: done
 
 ---
 
