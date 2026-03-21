@@ -12,4 +12,4 @@ export { StateMachine } from './state-machine';
 export type { BreachedThreshold } from './state-machine';
 export { FallbackHandler } from './fallback';
 export type { FallbackContext } from './fallback';
-// createBreaker — to be implemented in later phases
+export { createBreaker } from './breaker';
