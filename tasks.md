@@ -78,14 +78,14 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 5: Fallback Strategies
 
-- [ ] **Implement throw fallback** — In `src/fallback.ts`, implement the `throw` strategy: throw a `BudgetExceededError` with the breached threshold details, `resetsIn`, and circuit state. | Status: not_done
-- [ ] **Implement cached fallback** — Implement the `cached` strategy: store the last successful response from the wrapped function. Return it when the circuit is open. If no cached response exists, fall back to throwing `BudgetExceededError`. | Status: not_done
-- [ ] **Implement downgrade fallback** — Implement the `downgrade` strategy: call the user-provided `fn` with the same arguments that would have been passed to the original function. | Status: not_done
-- [ ] **Implement custom fallback** — Implement the `custom` strategy: call the user-provided `fn` with the original arguments AND the current `BreakerState`. | Status: not_done
-- [ ] **Write throw fallback tests** — Test that `BudgetExceededError` is thrown with correct metadata. | Status: not_done
-- [ ] **Write cached fallback tests** — Test: returns cached response when available. Throws when no cache exists. Cache updates on each successful call. Cache is not argument-specific (same response for all args). | Status: not_done
-- [ ] **Write downgrade fallback tests** — Test: fallback function is called with the original arguments. Return value is passed through to the caller. | Status: not_done
-- [ ] **Write custom fallback tests** — Test: fallback function receives both arguments and breaker state. State reflects current window details. | Status: not_done
+- [x] **Implement throw fallback** — In `src/fallback.ts`, implement the `throw` strategy: throw a `BudgetExceededError` with the breached threshold details, `resetsIn`, and circuit state. | Status: done
+- [x] **Implement cached fallback** — Implement the `cached` strategy: store the last successful response from the wrapped function. Return it when the circuit is open. If no cached response exists, fall back to throwing `BudgetExceededError`. | Status: done
+- [x] **Implement downgrade fallback** — Implement the `downgrade` strategy: call the user-provided `fn` with the same arguments that would have been passed to the original function. | Status: done
+- [x] **Implement custom fallback** — Implement the `custom` strategy: call the user-provided `fn` with the original arguments AND the current `BreakerState`. | Status: done
+- [x] **Write throw fallback tests** — Test that `BudgetExceededError` is thrown with correct metadata. | Status: done
+- [x] **Write cached fallback tests** — Test: returns cached response when available. Throws when no cache exists. Cache updates on each successful call. Cache is not argument-specific (same response for all args). | Status: done
+- [x] **Write downgrade fallback tests** — Test: fallback function is called with the original arguments. Return value is passed through to the caller. | Status: done
+- [x] **Write custom fallback tests** — Test: fallback function receives both arguments and breaker state. State reflects current window details. | Status: done
 
 ---
 
