@@ -6,30 +6,30 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 0: Project Scaffolding and Dev Dependencies
 
-- [ ] **Install dev dependencies** — Install `typescript`, `vitest`, `eslint`, and `@types/node` as devDependencies. Verify `npm run build`, `npm run test`, and `npm run lint` scripts execute without errors on the empty project. | Status: not_done
-- [ ] **Configure Vitest** — Create `vitest.config.ts` with support for fake timers, TypeScript path resolution, and the `src/__tests__` test directory. Ensure `npm run test` discovers and runs test files. | Status: not_done
-- [ ] **Configure ESLint** — Set up ESLint config for TypeScript (strict mode). Ensure `npm run lint` runs against `src/`. | Status: not_done
-- [ ] **Create directory structure** — Create all directories specified in the file structure: `src/window/`, `src/__tests__/`, `src/__tests__/window/`, `src/__tests__/fallback/`, `src/__tests__/integration/`, `src/__tests__/fixtures/`. | Status: not_done
+- [x] **Install dev dependencies** — Install `typescript`, `vitest`, `eslint`, and `@types/node` as devDependencies. Verify `npm run build`, `npm run test`, and `npm run lint` scripts execute without errors on the empty project. | Status: done
+- [x] **Configure Vitest** — Create `vitest.config.ts` with support for fake timers, TypeScript path resolution, and the `src/__tests__` test directory. Ensure `npm run test` discovers and runs test files. | Status: done
+- [x] **Configure ESLint** — Set up ESLint config for TypeScript (strict mode). Ensure `npm run lint` runs against `src/`. | Status: done
+- [x] **Create directory structure** — Create all directories specified in the file structure: `src/window/`, `src/__tests__/`, `src/__tests__/window/`, `src/__tests__/fallback/`, `src/__tests__/integration/`, `src/__tests__/fixtures/`. | Status: done
 
 ---
 
 ## Phase 1: Core Types and Error Classes
 
-- [ ] **Define WindowType type** — In `src/types.ts`, define `type WindowType = 'hourly' | 'daily' | 'monthly'`. | Status: not_done
-- [ ] **Define CustomWindow interface** — In `src/types.ts`, define `CustomWindow` with `type: 'custom'` and `durationMs: number`. | Status: not_done
-- [ ] **Define BudgetThreshold interface** — In `src/types.ts`, define `BudgetThreshold` with `window: WindowType | CustomWindow`, `limit: number`, and optional `warningThreshold?: number` (default 0.8). | Status: not_done
-- [ ] **Define FallbackConfig types** — In `src/types.ts`, define `ThrowFallback`, `CachedFallback`, `DowngradeFallback<TArgs, TResult>`, `CustomFallback<TArgs, TResult>`, and the union type `FallbackConfig`. | Status: not_done
-- [ ] **Define PricingConfig interface** — In `src/types.ts`, define `PricingConfig` with `inputCostPer1M: number` and `outputCostPer1M: number`. | Status: not_done
-- [ ] **Define BreakerConfig interface** — In `src/types.ts`, define `BreakerConfig<TArgs, TResult>` with all fields: `budgets`, `fallback`, `pricing`, `costExtractor`, `probeCount`, `cooldownMs`, `maxHistorySize`, `timezone`, `initialState`, `hooks`. | Status: not_done
-- [ ] **Define CircuitState type** — In `src/types.ts`, define `type CircuitState = 'closed' | 'open' | 'half-open'`. | Status: not_done
-- [ ] **Define SpendEntry interface** — In `src/types.ts`, define `SpendEntry` with `cost: number` and `timestamp: string`. | Status: not_done
-- [ ] **Define WindowState interface** — In `src/types.ts`, define `WindowState` with fields: `window`, `spent`, `limit`, `remaining`, `resetsIn`, `windowStart`, `windowEnd`, `breached`, `history`. | Status: not_done
-- [ ] **Define BreakerState interface** — In `src/types.ts`, define `BreakerState` with `state`, `totalSpent`, `windows`, `probesRemaining`, and optional `breachedThreshold`. | Status: not_done
-- [ ] **Define ExportedBreakerState interface** — In `src/types.ts`, define the serializable export format with `windows`, `totalSpent`, `state`, and `exportedAt`. | Status: not_done
-- [ ] **Define BreakerHooks interface** — In `src/types.ts`, define all event hooks: `onOpen`, `onClose`, `onHalfOpen`, `onSpendRecorded`, `onBudgetWarning`, `onWindowReset`, `onExtractorError`. Each with its specific payload signature. | Status: not_done
-- [ ] **Define Breaker interface** — In `src/types.ts`, define `Breaker<TArgs, TResult>` with methods: `wrap`, `recordSpend`, `recordTokens`, `getState`, `wouldExceedBudget`, `reset`, `addBudget`, `exportState`. | Status: not_done
-- [ ] **Implement BudgetExceededError class** — In `src/budget-exceeded-error.ts`, create `BudgetExceededError extends Error` with readonly properties: `threshold` (window, limit, spent), `resetsIn`, `circuitState`, and a human-readable `message`. | Status: not_done
-- [ ] **Write BudgetExceededError tests** — Test that the error extends `Error`, has the correct `name`, contains all metadata properties, and produces a readable message string. | Status: not_done
+- [x] **Define WindowType type** — In `src/types.ts`, define `type WindowType = 'hourly' | 'daily' | 'monthly'`. | Status: done
+- [x] **Define CustomWindow interface** — In `src/types.ts`, define `CustomWindow` with `type: 'custom'` and `durationMs: number`. | Status: done
+- [x] **Define BudgetThreshold interface** — In `src/types.ts`, define `BudgetThreshold` with `window: WindowType | CustomWindow`, `limit: number`, and optional `warningThreshold?: number` (default 0.8). | Status: done
+- [x] **Define FallbackConfig types** — In `src/types.ts`, define `ThrowFallback`, `CachedFallback`, `DowngradeFallback<TArgs, TResult>`, `CustomFallback<TArgs, TResult>`, and the union type `FallbackConfig`. | Status: done
+- [x] **Define PricingConfig interface** — In `src/types.ts`, define `PricingConfig` with `inputCostPer1M: number` and `outputCostPer1M: number`. | Status: done
+- [x] **Define BreakerConfig interface** — In `src/types.ts`, define `BreakerConfig<TArgs, TResult>` with all fields: `budgets`, `fallback`, `pricing`, `costExtractor`, `probeCount`, `cooldownMs`, `maxHistorySize`, `timezone`, `initialState`, `hooks`. | Status: done
+- [x] **Define CircuitState type** — In `src/types.ts`, define `type CircuitState = 'closed' | 'open' | 'half-open'`. | Status: done
+- [x] **Define SpendEntry interface** — In `src/types.ts`, define `SpendEntry` with `cost: number` and `timestamp: string`. | Status: done
+- [x] **Define WindowState interface** — In `src/types.ts`, define `WindowState` with fields: `window`, `spent`, `limit`, `remaining`, `resetsIn`, `windowStart`, `windowEnd`, `breached`, `history`. | Status: done
+- [x] **Define BreakerState interface** — In `src/types.ts`, define `BreakerState` with `state`, `totalSpent`, `windows`, `probesRemaining`, and optional `breachedThreshold`. | Status: done
+- [x] **Define ExportedBreakerState interface** — In `src/types.ts`, define the serializable export format with `windows`, `totalSpent`, `state`, and `exportedAt`. | Status: done
+- [x] **Define BreakerHooks interface** — In `src/types.ts`, define all event hooks: `onOpen`, `onClose`, `onHalfOpen`, `onSpendRecorded`, `onBudgetWarning`, `onWindowReset`, `onExtractorError`. Each with its specific payload signature. | Status: done
+- [x] **Define Breaker interface** — In `src/types.ts`, define `Breaker<TArgs, TResult>` with methods: `wrap`, `recordSpend`, `recordTokens`, `getState`, `wouldExceedBudget`, `reset`, `addBudget`, `exportState`. | Status: done
+- [x] **Implement BudgetExceededError class** — In `src/budget-exceeded-error.ts`, create `BudgetExceededError extends Error` with readonly properties: `threshold` (window, limit, spent), `resetsIn`, `circuitState`, and a human-readable `message`. | Status: done
+- [x] **Write BudgetExceededError tests** — Test that the error extends `Error`, has the correct `name`, contains all metadata properties, and produces a readable message string. | Status: done
 
 ---
 
