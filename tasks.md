@@ -52,13 +52,13 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 3: Spend Tracker
 
-- [ ] **Implement SpendTracker class** — In `src/spend-tracker.ts`, create a class that manages per-window spend accumulation. Holds a running total (`spent`), the threshold (`limit`), a `breached` flag, and a `warningFired` flag. | Status: not_done
-- [ ] **Implement addSpend method** — `addSpend(cost)` adds the cost to the accumulator, checks against the threshold, and returns whether the threshold is now breached. | Status: not_done
-- [ ] **Implement spend history tracking** — Each `addSpend` call adds a `SpendEntry` (cost + ISO timestamp) to the history array. Respect `maxHistorySize` by dropping the oldest entries when the limit is reached. | Status: not_done
-- [ ] **Implement warning threshold detection** — When `addSpend` causes `spent / limit` to cross the `warningThreshold` (default 0.8), mark the warning as fired. The warning fires at most once per window period. | Status: not_done
-- [ ] **Implement spend tracker reset** — Reset the accumulator to zero, clear history, reset the `warningFired` flag. Called when the associated window resets. | Status: not_done
-- [ ] **Implement remaining budget calculation** — `remaining = Math.max(0, limit - spent)`. | Status: not_done
-- [ ] **Write spend tracker tests** — Test: `addSpend` accumulates correctly. Threshold breach detection. Warning threshold fires once. History respects maxHistorySize with oldest-entry eviction. Reset clears everything. `addSpend(0)` is a no-op. Negative cost throws `TypeError`. | Status: not_done
+- [x] **Implement SpendTracker class** — In `src/spend-tracker.ts`, create a class that manages per-window spend accumulation. Holds a running total (`spent`), the threshold (`limit`), a `breached` flag, and a `warningFired` flag. | Status: done
+- [x] **Implement addSpend method** — `addSpend(cost)` adds the cost to the accumulator, checks against the threshold, and returns whether the threshold is now breached. | Status: done
+- [x] **Implement spend history tracking** — Each `addSpend` call adds a `SpendEntry` (cost + ISO timestamp) to the history array. Respect `maxHistorySize` by dropping the oldest entries when the limit is reached. | Status: done
+- [x] **Implement warning threshold detection** — When `addSpend` causes `spent / limit` to cross the `warningThreshold` (default 0.8), mark the warning as fired. The warning fires at most once per window period. | Status: done
+- [x] **Implement spend tracker reset** — Reset the accumulator to zero, clear history, reset the `warningFired` flag. Called when the associated window resets. | Status: done
+- [x] **Implement remaining budget calculation** — `remaining = Math.max(0, limit - spent)`. | Status: done
+- [x] **Write spend tracker tests** — Test: `addSpend` accumulates correctly. Threshold breach detection. Warning threshold fires once. History respects maxHistorySize with oldest-entry eviction. Reset clears everything. `addSpend(0)` is a no-op. Negative cost throws `TypeError`. | Status: done
 
 ---
 
