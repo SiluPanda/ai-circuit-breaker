@@ -3,6 +3,7 @@
 Spend-based circuit breaker for AI API calls.
 
 [![npm version](https://img.shields.io/npm/v/ai-circuit-breaker.svg)](https://www.npmjs.com/package/ai-circuit-breaker)
+[![npm downloads](https://img.shields.io/npm/dt/ai-circuit-breaker.svg)](https://www.npmjs.com/package/ai-circuit-breaker)
 [![license](https://img.shields.io/npm/l/ai-circuit-breaker.svg)](https://github.com/SiluPanda/ai-circuit-breaker/blob/master/LICENSE)
 [![node](https://img.shields.io/node/v/ai-circuit-breaker.svg)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-blue.svg)](https://www.typescriptlang.org/)
