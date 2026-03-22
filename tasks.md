@@ -108,64 +108,64 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 7: Multiple Simultaneous Windows
 
-- [ ] **Support multiple budget thresholds** — `createBreaker` accepts an array of budgets. Each budget gets its own window tracker and spend tracker. `recordSpend` adds cost to all trackers. Circuit opens when ANY threshold is breached. Circuit closes only when ALL thresholds are unbreached. | Status: not_done
-- [ ] **Handle independent window resets** — When one window resets but another is still breached, the circuit remains open. Only transition to half-open if the reset window was the one that caused the opening AND no other window is breached. | Status: not_done
-- [ ] **Handle multiple simultaneous window resets** — If multiple windows expire before the next interaction, all are reset in a single lazy check. | Status: not_done
-- [ ] **Write multi-window tests** — Test: hourly + daily budgets. Exhaust hourly, circuit opens. Hour resets, circuit goes half-open and closes. Exhaust daily, circuit opens. Hour resets but daily still breached, circuit stays open. Both reset, circuit transitions. | Status: not_done
+- [x] **Support multiple budget thresholds** — `createBreaker` accepts an array of budgets. Each budget gets its own window tracker and spend tracker. `recordSpend` adds cost to all trackers. Circuit opens when ANY threshold is breached. Circuit closes only when ALL thresholds are unbreached. | Status: done
+- [x] **Handle independent window resets** — When one window resets but another is still breached, the circuit remains open. Only transition to half-open if the reset window was the one that caused the opening AND no other window is breached. | Status: done
+- [x] **Handle multiple simultaneous window resets** — If multiple windows expire before the next interaction, all are reset in a single lazy check. | Status: done
+- [x] **Write multi-window tests** — Test: hourly + daily budgets. Exhaust hourly, circuit opens. Hour resets, circuit goes half-open and closes. Exhaust daily, circuit opens. Hour resets but daily still breached, circuit stays open. Both reset, circuit transitions. | Status: done
 
 ---
 
 ## Phase 8: Cost Extraction and Token Recording
 
-- [ ] **Implement automatic cost extraction** — When `costExtractor` is provided in config, after each successful wrapped call, pass the return value through the extractor and call `recordSpend` with the result. If the extractor throws, catch the error, fire `onExtractorError`, and return the response to the caller without recording cost. If the extractor returns `NaN`, treat as zero and emit a warning. | Status: not_done
-- [ ] **Implement breaker.recordTokens method** — Convert token counts to dollars using configured `pricing`: `inputTokens * inputCostPer1M / 1e6 + outputTokens * outputCostPer1M / 1e6`. Call `recordSpend` with the result. Throw `Error` if `pricing` is not configured. | Status: not_done
-- [ ] **Write cost extractor tests** — Test: extractor is called with the wrapped function's return value. Extracted cost is recorded. Extractor that throws: error caught, `onExtractorError` fires, response still returned. Extractor that returns NaN: treated as zero. | Status: not_done
-- [ ] **Write recordTokens tests** — Test: correct arithmetic conversion. Throws if pricing not configured. Works with zero tokens. Works with large token counts. | Status: not_done
+- [x] **Implement automatic cost extraction** — When `costExtractor` is provided in config, after each successful wrapped call, pass the return value through the extractor and call `recordSpend` with the result. If the extractor throws, catch the error, fire `onExtractorError`, and return the response to the caller without recording cost. If the extractor returns `NaN`, treat as zero and emit a warning. | Status: done
+- [x] **Implement breaker.recordTokens method** — Convert token counts to dollars using configured `pricing`: `inputTokens * inputCostPer1M / 1e6 + outputTokens * outputCostPer1M / 1e6`. Call `recordSpend` with the result. Throw `Error` if `pricing` is not configured. | Status: done
+- [x] **Write cost extractor tests** — Test: extractor is called with the wrapped function's return value. Extracted cost is recorded. Extractor that throws: error caught, `onExtractorError` fires, response still returned. Extractor that returns NaN: treated as zero. | Status: done
+- [x] **Write recordTokens tests** — Test: correct arithmetic conversion. Throws if pricing not configured. Works with zero tokens. Works with large token counts. | Status: done
 
 ---
 
 ## Phase 9: Pre-Flight Cost Check
 
-- [ ] **Implement breaker.wouldExceedBudget method** — Check if adding `estimatedCost` to any window's current accumulator would exceed that window's threshold. Return `true` if any would be exceeded, `false` otherwise. Must not modify any state (pure read). Must perform lazy window reset check first (to avoid stale data). | Status: not_done
-- [ ] **Write wouldExceedBudget tests** — Test: returns true when estimated cost would breach any threshold. Returns false when cost fits within all budgets. Does not modify state (call getState before and after, verify identical). Checks against all windows. Edge: estimated cost of 0 returns false. Edge: when circuit is already open, still checks against accumulators. | Status: not_done
+- [x] **Implement breaker.wouldExceedBudget method** — Check if adding `estimatedCost` to any window's current accumulator would exceed that window's threshold. Return `true` if any would be exceeded, `false` otherwise. Must not modify any state (pure read). Must perform lazy window reset check first (to avoid stale data). | Status: done
+- [x] **Write wouldExceedBudget tests** — Test: returns true when estimated cost would breach any threshold. Returns false when cost fits within all budgets. Does not modify state (call getState before and after, verify identical). Checks against all windows. Edge: estimated cost of 0 returns false. Edge: when circuit is already open, still checks against accumulators. | Status: done
 
 ---
 
 ## Phase 10: Budget Replenishment
 
-- [ ] **Implement breaker.addBudget method** — Increase the `limit` for a specific window. If the circuit is open and the new limit brings spend below the threshold for all windows, and `cooldownMs` has elapsed, transition to half-open. Validate: `amount` must be a positive number. `window` must match one of the configured budgets. | Status: not_done
-- [ ] **Write addBudget tests** — Test: increases the limit. Triggers half-open when spend is now below the new limit. Does not trigger transition if other windows are still breached. Does not trigger transition if cooldownMs has not elapsed. Throws on negative amount. Throws on unrecognized window. | Status: not_done
+- [x] **Implement breaker.addBudget method** — Increase the `limit` for a specific window. If the circuit is open and the new limit brings spend below the threshold for all windows, and `cooldownMs` has elapsed, transition to half-open. Validate: `amount` must be a positive number. `window` must match one of the configured budgets. | Status: done
+- [x] **Write addBudget tests** — Test: increases the limit. Triggers half-open when spend is now below the new limit. Does not trigger transition if other windows are still breached. Does not trigger transition if cooldownMs has not elapsed. Throws on negative amount. Throws on unrecognized window. | Status: done
 
 ---
 
 ## Phase 11: Event Hooks
 
-- [ ] **Implement onOpen hook** — Fire when the circuit transitions from closed to open. Payload: `{ threshold: { window, limit, spent }, totalSpent }`. | Status: not_done
-- [ ] **Implement onClose hook** — Fire when the circuit transitions from open or half-open to closed. Payload: `{ previousState, totalSpent }`. Also fires on manual `reset()`. | Status: not_done
+- [x] **Implement onOpen hook** — Fire when the circuit transitions from closed to open. Payload: `{ threshold: { window, limit, spent }, totalSpent }`. | Status: done
+- [x] **Implement onClose hook** — Fire when the circuit transitions from open or half-open to closed. Payload: `{ previousState, totalSpent }`. Also fires on manual `reset()`. | Status: done
 - [ ] **Implement onHalfOpen hook** — Fire when the circuit transitions from open to half-open. Payload: `{ reason: 'window-reset' | 'budget-replenished' | 'cooldown-expired', probeCount }`. | Status: not_done
-- [ ] **Implement onSpendRecorded hook** — Fire after every `recordSpend` call (including automatic recording via costExtractor). Payload: `{ cost, totalSpent, windows: [{ window, spent, limit, remaining }] }`. | Status: not_done
-- [ ] **Implement onBudgetWarning hook** — Fire when spend crosses the warning threshold (default 80%) for any window. Fire at most once per window per window period. Payload: `{ window, spent, limit, warningThreshold, percentUsed }`. | Status: not_done
-- [ ] **Implement onWindowReset hook** — Fire when a budget window resets (detected lazily). Payload: `{ window, previousSpent }`. | Status: not_done
-- [ ] **Implement onExtractorError hook** — Fire when the `costExtractor` throws or returns a non-number. Payload: `{ error, result }`. | Status: not_done
+- [x] **Implement onSpendRecorded hook** — Fire after every `recordSpend` call (including automatic recording via costExtractor). Payload: `{ cost, totalSpent, windows: [{ window, spent, limit, remaining }] }`. | Status: done
+- [x] **Implement onBudgetWarning hook** — Fire when spend crosses the warning threshold (default 80%) for any window. Fire at most once per window per window period. Payload: `{ window, spent, limit, warningThreshold, percentUsed }`. | Status: done
+- [x] **Implement onWindowReset hook** — Fire when a budget window resets (detected lazily). Payload: `{ window, previousSpent }`. | Status: done
+- [x] **Implement onExtractorError hook** — Fire when the `costExtractor` throws or returns a non-number. Payload: `{ error, result }`. | Status: done
 - [ ] **Write event hook tests** — Test each hook fires at the correct time with the correct payload. Test `onBudgetWarning` fires at most once per window period. Test hooks are optional (no error if not provided). Test hooks that throw do not break breaker operation. | Status: not_done
 
 ---
 
 ## Phase 12: State Export and Import
 
-- [ ] **Implement breaker.exportState method** — In `src/state-export.ts`, serialize the current breaker state into an `ExportedBreakerState` object: per-window accumulators and boundaries, totalSpent, circuit state, and an `exportedAt` ISO timestamp. The result must be JSON-serializable. | Status: not_done
+- [x] **Implement breaker.exportState method** — In `src/state-export.ts`, serialize the current breaker state into an `ExportedBreakerState` object: per-window accumulators and boundaries, totalSpent, circuit state, and an `exportedAt` ISO timestamp. The result must be JSON-serializable. | Status: done
 - [ ] **Implement initialState restoration** — In `createBreaker`, accept `initialState: ExportedBreakerState`. Restore window accumulators, totalSpent, and circuit state from the imported data. If any imported window boundaries are in the past, reset those windows on first interaction (lazy). | Status: not_done
-- [ ] **Write state export tests** — Test: `exportState` produces a JSON-serializable object. All fields are present. Exported during open state captures correct state. | Status: not_done
+- [x] **Write state export tests** — Test: `exportState` produces a JSON-serializable object. All fields are present. Exported during open state captures correct state. | Status: done
 - [ ] **Write state import tests** — Test: creating a breaker with `initialState` restores accumulators and state. Expired windows in imported state are reset on first interaction. Total spend is restored accurately. Circuit state is restored. | Status: not_done
 
 ---
 
 ## Phase 13: Integration Tests
 
-- [ ] **Write end-to-end lifecycle test** — Full cycle: create breaker, wrap a mock function, make calls in closed state, exhaust budget, verify open state with fallback, advance time past window reset, verify half-open transition, make probe call, verify closed transition. Use Vitest fake timers. | Status: not_done
+- [x] **Write end-to-end lifecycle test** — Full cycle: create breaker, wrap a mock function, make calls in closed state, exhaust budget, verify open state with fallback, advance time past window reset, verify half-open transition, make probe call, verify closed transition. Use Vitest fake timers. | Status: done
 - [ ] **Write multi-window integration test** — Create a breaker with hourly ($10) and daily ($100) limits. Exhaust hourly, verify open. Advance past hour, verify half-open and close. Continue spending to exhaust daily. Advance past hour but not day, verify circuit stays open. | Status: not_done
 - [ ] **Write downgrade fallback integration test** — Create a breaker with a downgrade fallback that calls a mock "cheap" function. Exhaust the budget. Verify subsequent calls invoke the downgrade function, not the original. Verify arguments pass through. | Status: not_done
-- [ ] **Write costExtractor integration test** — Create a breaker with a `costExtractor`. Wrap a mock function returning `{ usage: { prompt_tokens, completion_tokens } }`. Call the wrapped function. Verify `recordSpend` was called automatically with the correct dollar amount computed from token counts. | Status: not_done
+- [x] **Write costExtractor integration test** — Create a breaker with a `costExtractor`. Wrap a mock function returning `{ usage: { prompt_tokens, completion_tokens } }`. Call the wrapped function. Verify `recordSpend` was called automatically with the correct dollar amount computed from token counts. | Status: done
 - [ ] **Write OpenAI SDK integration pattern test** — Test the OpenAI integration pattern from the spec: wrap an OpenAI-like mock, use costExtractor to compute cost from usage, verify spend tracking and circuit breaking work together. | Status: not_done
 - [ ] **Write Anthropic SDK integration pattern test** — Test the Anthropic integration pattern from the spec: wrap an Anthropic-like mock, use costExtractor for Anthropic's usage format. | Status: not_done
 - [ ] **Create mock API client fixture** — In `src/__tests__/fixtures/mock-api.ts`, create a configurable mock API client that returns responses with `usage` fields (prompt_tokens, completion_tokens). Support configurable token counts per call. | Status: not_done
@@ -179,11 +179,11 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 - [ ] **Test budget limit of Infinity** — Circuit never opens due to this threshold. Spend accumulates but never breaches. | Status: not_done
 - [ ] **Test extremely small costs** — `recordSpend(0.000001)` accumulates correctly across thousands of calls. Verify no floating-point drift causes premature/missed threshold breach. | Status: not_done
 - [ ] **Test rapid sequential calls** — Spend accumulates correctly without race conditions (synchronous accumulation ensures this). | Status: not_done
-- [ ] **Test recordSpend when circuit is open** — Spend is still tracked (the method is callable for manual recording even when circuit is open). | Status: not_done
+- [x] **Test recordSpend when circuit is open** — Spend is still tracked (the method is callable for manual recording even when circuit is open). | Status: done
 - [ ] **Test window reset with no spend** — `onWindowReset` fires with `previousSpent: 0`. | Status: not_done
 - [ ] **Test multiple windows reset simultaneously** — All are processed in a single lazy check. Multiple `onWindowReset` events fire. | Status: not_done
 - [ ] **Test addBudget with amount that still leaves spend above limit** — No state transition occurs. | Status: not_done
-- [ ] **Test wrap called multiple times** — Each wrapped function shares the same breaker state. Spend recorded through any wrapped function affects all. | Status: not_done
+- [x] **Test wrap called multiple times** — Each wrapped function shares the same breaker state. Spend recorded through any wrapped function affects all. | Status: done
 - [ ] **Test import state with window boundaries in the past** — Windows are reset on first interaction after import. | Status: not_done
 
 ---
@@ -209,9 +209,9 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 ## Phase 17: Build and Publish Preparation
 
-- [ ] **Verify TypeScript compilation** — Run `npm run build` and verify `dist/` output contains `.js`, `.d.ts`, and `.d.ts.map` files for all source files. No compilation errors. | Status: not_done
-- [ ] **Verify declaration files export correct types** — Verify that `dist/index.d.ts` exports `createBreaker`, `BudgetExceededError`, and all public types. Consumers should get full type information. | Status: not_done
-- [ ] **Verify package.json fields** — Confirm `main` points to `dist/index.js`, `types` points to `dist/index.d.ts`, `files` includes `dist`, `engines.node` is `>=18`, `license` is `MIT`. | Status: not_done
+- [x] **Verify TypeScript compilation** — Run `npm run build` and verify `dist/` output contains `.js`, `.d.ts`, and `.d.ts.map` files for all source files. No compilation errors. | Status: done
+- [x] **Verify declaration files export correct types** — Verify that `dist/index.d.ts` exports `createBreaker`, `BudgetExceededError`, and all public types. Consumers should get full type information. | Status: done
+- [x] **Verify package.json fields** — Confirm `main` points to `dist/index.js`, `types` points to `dist/index.d.ts`, `files` includes `dist`, `engines.node` is `>=18`, `license` is `MIT`. | Status: done
 - [ ] **Bump version to target release** — Update `package.json` version according to the implementation phase completed (0.1.0 for Phase 1 core, up to 1.0.0 for full implementation). | Status: not_done
-- [ ] **Run full test suite and lint** — Execute `npm run test` and `npm run lint`. All tests pass, no lint errors. | Status: not_done
-- [ ] **Verify zero runtime dependencies** — Confirm `package.json` has no `dependencies` field (only `devDependencies`). The built output must not require any external packages. | Status: not_done
+- [x] **Run full test suite and lint** — Execute `npm run test` and `npm run lint`. All tests pass, no lint errors. | Status: done
+- [x] **Verify zero runtime dependencies** — Confirm `package.json` has no `dependencies` field (only `devDependencies`). The built output must not require any external packages. | Status: done
