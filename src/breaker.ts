@@ -147,6 +147,14 @@ export function createBreaker<TArgs = unknown, TResult = unknown>(
           }
         }
 
+        // After successful probe, close circuit if all probes consumed and no budget breached
+        if (machine.getState() === 'half-open' && machine.getProbesRemaining() === 0) {
+          if (!entries.some(e => e.spend.isBreached())) {
+            machine.closeCircuit();
+            hooks.onClose?.({ previousState: 'half-open', totalSpent });
+          }
+        }
+
         return result;
       };
     },

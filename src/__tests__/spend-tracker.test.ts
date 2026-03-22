@@ -310,9 +310,7 @@ describe('SpendTracker', () => {
       tracker.addSpend(100);
       expect(tracker.isBreached()).toBe(true);
       tracker.setLimit(200);
-      // Note: breached is only recalculated on addSpend, not setLimit
-      // The breached flag reflects the state at last addSpend
-      expect(tracker.isBreached()).toBe(true);
+      expect(tracker.isBreached()).toBe(false);
     });
   });
 

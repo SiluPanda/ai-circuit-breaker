@@ -37,7 +37,10 @@ export class SpendTracker {
 
   getSpent(): number { return this.spent; }
   getLimit(): number { return this.limit; }
-  setLimit(limit: number): void { this.limit = limit; }
+  setLimit(limit: number): void {
+    this.limit = limit;
+    this.breached = this.spent >= this.limit;
+  }
   getRemaining(): number { return Math.max(0, this.limit - this.spent); }
   isBreached(): boolean { return this.breached; }
   isWarningFired(): boolean { return this.warningFired; }
