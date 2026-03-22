@@ -1,0 +1,1 @@
+{"version":3,"file":"breaker.d.ts","sourceRoot":"","sources":["../src/breaker.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EACV,aAAa,EAAE,OAAO,EAEvB,MAAM,SAAS,CAAC;AAcjB,wBAAgB,aAAa,CAAC,KAAK,GAAG,OAAO,EAAE,OAAO,GAAG,OAAO,EAC9D,MAAM,EAAE,aAAa,CAAC,KAAK,EAAE,OAAO,CAAC,GACpC,OAAO,CAAC,KAAK,EAAE,OAAO,CAAC,CAuPzB"}

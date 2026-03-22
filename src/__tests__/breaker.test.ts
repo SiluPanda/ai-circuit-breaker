@@ -612,12 +612,9 @@ describe('createBreaker', () => {
       //    auto-close after probes succeed — it requires explicit closing or another
       //    mechanism. Let's verify actual behavior:
 
-      // The state should show half-open with 0 probes remaining after the probe call
+      // After probe succeeds with no breach, circuit should auto-close
       const state4 = breaker.getState();
-      // The call went through (no new breach), so it's still half-open but probes are consumed
-      // Since no budget was re-breached, subsequent calls will trigger fallback in half-open
-      // (probesRemaining = 0)
-      expect(state4.probesRemaining).toBe(0);
+      expect(state4.state).toBe('closed');
     });
 
     it('spend -> open -> window reset -> half-open -> successful probe with no new breach closes circuit', async () => {
@@ -643,6 +640,8 @@ describe('createBreaker', () => {
       await wrapped('probe');
 
       expect(fn).toHaveBeenCalledOnce();
+      // Circuit should auto-close after successful probe with no breach
+      expect(breaker.getState().state).toBe('closed');
     });
   });
 
