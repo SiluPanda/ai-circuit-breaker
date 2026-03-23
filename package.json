@@ -1,6 +1,6 @@
 {
   "name": "ai-circuit-breaker",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "description": "Circuit breaker for AI API spend management",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
