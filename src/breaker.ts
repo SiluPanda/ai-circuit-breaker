@@ -70,8 +70,14 @@ export function createBreaker<TArgs = unknown, TResult = unknown>(
         entry.tracker.reset();
         hooks.onWindowReset?.({ window: entry.window, previousSpent: prevSpent });
         // If circuit is open, a window reset may allow transition to half-open
-        machine.tryTransitionToHalfOpen();
+        if (machine.tryTransitionToHalfOpen()) {
+          hooks.onHalfOpen?.({ reason: 'window-reset', probeCount });
+        }
       }
+    }
+    // Also check for cooldown-expired transition (independent of window reset)
+    if (machine.getState() === 'open' && machine.tryTransitionToHalfOpen()) {
+      hooks.onHalfOpen?.({ reason: 'cooldown-expired', probeCount });
     }
   }
 
@@ -244,7 +250,9 @@ export function createBreaker<TArgs = unknown, TResult = unknown>(
       entry.spend.setLimit(entry.spend.getLimit() + amount);
       // If circuit is open and no budgets are breached now, try transition
       if (machine.getState() === 'open' && !entries.some(e => e.spend.isBreached())) {
-        machine.tryTransitionToHalfOpen();
+        if (machine.tryTransitionToHalfOpen()) {
+          hooks.onHalfOpen?.({ reason: 'budget-replenished', probeCount });
+        }
       }
     },
 

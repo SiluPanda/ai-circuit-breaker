@@ -558,7 +558,7 @@ describe('createBreaker', () => {
     it('spend -> open -> fallback -> window reset -> half-open -> probe -> closed', async () => {
       const breaker = createBreaker<string, string>(makeConfig<string, string>({
         budgets: [{ window: { type: 'custom', durationMs: 10000 }, limit: 10 }],
-        cooldownMs: 0, // no cooldown so we can test transitions cleanly
+        cooldownMs: 10000, // matches window duration so cooldown expires with window reset
       }));
 
       const fn = vi.fn().mockResolvedValue('success');
@@ -621,7 +621,7 @@ describe('createBreaker', () => {
       // This is a cleaner lifecycle test
       const breaker = createBreaker<string, string>(makeConfig<string, string>({
         budgets: [{ window: { type: 'custom', durationMs: 5000 }, limit: 5 }],
-        cooldownMs: 0,
+        cooldownMs: 5000,
       }));
 
       // Breach the budget

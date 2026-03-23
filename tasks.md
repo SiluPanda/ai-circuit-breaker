@@ -142,12 +142,12 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 - [x] **Implement onOpen hook** — Fire when the circuit transitions from closed to open. Payload: `{ threshold: { window, limit, spent }, totalSpent }`. | Status: done
 - [x] **Implement onClose hook** — Fire when the circuit transitions from open or half-open to closed. Payload: `{ previousState, totalSpent }`. Also fires on manual `reset()`. | Status: done
-- [ ] **Implement onHalfOpen hook** — Fire when the circuit transitions from open to half-open. Payload: `{ reason: 'window-reset' | 'budget-replenished' | 'cooldown-expired', probeCount }`. | Status: not_done
+- [x] **Implement onHalfOpen hook** — Fire when the circuit transitions from open to half-open. Payload: `{ reason: 'window-reset' | 'budget-replenished' | 'cooldown-expired', probeCount }`. | Status: done
 - [x] **Implement onSpendRecorded hook** — Fire after every `recordSpend` call (including automatic recording via costExtractor). Payload: `{ cost, totalSpent, windows: [{ window, spent, limit, remaining }] }`. | Status: done
 - [x] **Implement onBudgetWarning hook** — Fire when spend crosses the warning threshold (default 80%) for any window. Fire at most once per window per window period. Payload: `{ window, spent, limit, warningThreshold, percentUsed }`. | Status: done
 - [x] **Implement onWindowReset hook** — Fire when a budget window resets (detected lazily). Payload: `{ window, previousSpent }`. | Status: done
 - [x] **Implement onExtractorError hook** — Fire when the `costExtractor` throws or returns a non-number. Payload: `{ error, result }`. | Status: done
-- [ ] **Write event hook tests** — Test each hook fires at the correct time with the correct payload. Test `onBudgetWarning` fires at most once per window period. Test hooks are optional (no error if not provided). Test hooks that throw do not break breaker operation. | Status: not_done
+- [x] **Write event hook tests** — Test each hook fires at the correct time with the correct payload. Test `onBudgetWarning` fires at most once per window period. Test hooks are optional (no error if not provided). Test hooks that throw do not break breaker operation. | Status: done
 
 ---
 
@@ -177,12 +177,12 @@ Comprehensive task list derived from [SPEC.md](./SPEC.md). Each task is granular
 
 - [ ] **Test budget limit of zero** — Circuit opens immediately on any spend. `wouldExceedBudget(any positive number)` returns true. | Status: not_done
 - [ ] **Test budget limit of Infinity** — Circuit never opens due to this threshold. Spend accumulates but never breaches. | Status: not_done
-- [ ] **Test extremely small costs** — `recordSpend(0.000001)` accumulates correctly across thousands of calls. Verify no floating-point drift causes premature/missed threshold breach. | Status: not_done
-- [ ] **Test rapid sequential calls** — Spend accumulates correctly without race conditions (synchronous accumulation ensures this). | Status: not_done
+- [x] **Test extremely small costs** — `recordSpend(0.000001)` accumulates correctly across thousands of calls. Verify no floating-point drift causes premature/missed threshold breach. | Status: done
+- [x] **Test rapid sequential calls** — Spend accumulates correctly without race conditions (synchronous accumulation ensures this). | Status: done
 - [x] **Test recordSpend when circuit is open** — Spend is still tracked (the method is callable for manual recording even when circuit is open). | Status: done
-- [ ] **Test window reset with no spend** — `onWindowReset` fires with `previousSpent: 0`. | Status: not_done
-- [ ] **Test multiple windows reset simultaneously** — All are processed in a single lazy check. Multiple `onWindowReset` events fire. | Status: not_done
-- [ ] **Test addBudget with amount that still leaves spend above limit** — No state transition occurs. | Status: not_done
+- [x] **Test window reset with no spend** — `onWindowReset` fires with `previousSpent: 0`. | Status: done
+- [x] **Test multiple windows reset simultaneously** — All are processed in a single lazy check. Multiple `onWindowReset` events fire. | Status: done
+- [x] **Test addBudget with amount that still leaves spend above limit** — No state transition occurs. | Status: done
 - [x] **Test wrap called multiple times** — Each wrapped function shares the same breaker state. Spend recorded through any wrapped function affects all. | Status: done
 - [ ] **Test import state with window boundaries in the past** — Windows are reset on first interaction after import. | Status: not_done
 
